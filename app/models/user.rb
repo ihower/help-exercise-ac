@@ -13,6 +13,9 @@ class User < ActiveRecord::Base
 
   def posts_count
     # TODO: 請完成我
+    p = self.messages.count
+    c = self.comments.count
+    p+c
   end
 
   def words_count
