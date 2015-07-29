@@ -5,6 +5,7 @@ namespace :dev do
     Message.delete_all
     Comment.delete_all
 
+    User.create!( :email => "howclf@gmail.com", :password => "zxczxczxc" )
     users = []
     10.times do
       users << User.create!( :email => Faker::Internet.email,
