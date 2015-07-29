@@ -1,0 +1,17 @@
+=btn-style($height, $color)
+  text-align: center
+  display: inline-block
+  font-size: $fz-m
+  padding: 0 1.2em
+  height: $height
+  line-height: $height
+  color: $white
+  background: $color
+  border-bottom: 3px solid darken($color,10%)
+  +border-radius(10px)
+  &:hover
+    color: lighten($silver,30%)
+    background: lighten($color,1%)
+    border-bottom: 3px solid darken($color,5%)
+
+
