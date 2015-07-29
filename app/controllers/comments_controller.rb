@@ -16,8 +16,16 @@ class CommentsController < ApplicationController
     @comment = current_user.comments.find( params[:id] )
     @comment.destroy
 
+    respond_to do |format|
+      format.js   { render :layout => false }
+    end
+
     redirect_to :back
   end
+
+
+
+
 
   protected
 
