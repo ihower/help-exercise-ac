@@ -16,6 +16,13 @@ class CommentsController < ApplicationController
     @comment = current_user.comments.find( params[:id] )
     @comment.destroy
 
+    respond_to do |format|
+      format.html {
+        redirect_to message_path(@message)
+      }
+      format.js
+    end
+
     redirect_to :back
   end
 

@@ -12,6 +12,14 @@ class User < ActiveRecord::Base
   end
 
   def posts_count
+    counter=0
+    self.comments.find_each do |x|
+      counter += 1
+    end
+    self.messages.find_each do |x|
+      counter += 1
+    end
+    return counter
     # TODO: 請完成我
   end
 
