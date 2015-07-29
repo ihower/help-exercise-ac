@@ -3,6 +3,13 @@ Rails.application.routes.draw do
 
   resources :messages do
     resources :comments
+    member do
+
+    end
+  end
+
+  scope :path => '/api/v1/', :module => "api_v1", :defaults => { :format => :json }, :as => 'v1' do
+    resources :messages
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
