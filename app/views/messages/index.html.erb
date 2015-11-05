@@ -34,7 +34,7 @@
     <td>
       <% if msg.user == current_user %>
         <%= link_to "Edit", edit_message_path(msg) %>
-        <%= link_to "Delete", message_path(msg), :method => :delete, :data => { :confirm => "Are u sure?"} %>
+        <%= link_to "Delete", message_path(msg), :method => :delete%>
       <% end %>
     </td>
   </tr>
