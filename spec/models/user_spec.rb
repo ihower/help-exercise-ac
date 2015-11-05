@@ -24,8 +24,7 @@ RSpec.describe User, type: :model do
 
   describe "#words_count" do
     before do
-      other_user = User.create!( :email => "ooxx@example.org", :password => "12345678")
-      @user = other_user
+
       m1 = Message.create!( :user => @user, :content => "a b c"  )
       Comment.create!( :user => @user, :message => m1, :content => "a b c")
 
