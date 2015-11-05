@@ -4,6 +4,14 @@ class Message < ActiveRecord::Base
 
   has_many :comments, :dependent => :destroy
 
+  scope :pending, -> { where( :status => "pending" )}
+  scope :completed, -> {where( :status => "completed" )}
+
+  def self.within_days(d)
+    where( ["created_at >= ?", Time.now - d.days ] )
+  end
+  
+
   def last_comment_summary
     self.comments.last.try(:content).try(:truncate, 20)
   end
