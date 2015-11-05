@@ -4,7 +4,7 @@ class MessagesController < ApplicationController
 
   def index
     # TODO: fix N+1 queries for user and comments
-    @messages = Message.order("id DESC").page( params[:page] )
+    @messages = Message.includes(:user).includes(:comments).order("id DESC").page( params[:page] )
 
     if params[:status] == "pending"
       # TODO: @messages = @messages.pending
@@ -56,7 +56,8 @@ class MessagesController < ApplicationController
     @message = current_user.messages.find( params[:id] )
     @message.destroy
 
-    redirect_to root_path
+     redirect_to root_path
+      
   end
 
   protected
