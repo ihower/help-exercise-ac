@@ -4,6 +4,9 @@ namespace :dev do
     User.delete_all
     Message.delete_all
     Comment.delete_all
+    Like.delete_all
+    Subscription.delete_all
+
 
     users = []
     10.times do
@@ -21,6 +24,13 @@ namespace :dev do
         m.comments.create!( :content => Faker::Lorem.paragraph,
                             :user => users.sample )
       end
+
+      2.times do
+        m.likes.create!(:user => User.all.shuffle[0..9].first)
+        m.subscriptions.create!(:user => User.all.shuffle[0..9].first)
+      end
+
+
     end
   end
 

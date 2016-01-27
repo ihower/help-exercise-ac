@@ -1,5 +1,33 @@
 <h2><%= @message.title %></h2>
 
+  <% if @message.find_my_subscription(current_user) %>
+    <%= link_to "UnSubscribe", unsubscribe_message_path(@message), :method => :post %>
+  <% else %>
+    <%= link_to "Subscribe", subscribe_message_path(@message), :method => :post %>
+  <% end %>
+
+  <% like = @message.find_my_like(current_user) %>
+    <% if like %>
+      <%= link_to "Unlike", message_like_path(@message, like), :method => :delete %>
+    <% else %>
+      <%= link_to "Like", message_likes_path(@message), :method => :post %>
+  <% end %>
+  
+  <p>
+  Liked by
+  <% @message.liked_users.each do |u| %>
+   <%= u.email %>, 
+  <% end %>
+  </p>
+
+  <p>
+  Subscribe by
+  <% @message.subscribed_users.each do |u| %>
+   <%= u.email %>, 
+  <% end %>
+  </p>
+
+
 <%= simple_format @message.content %>
 
 <h2>Comments list</h2>
@@ -17,15 +45,15 @@
 
 <% end %>
 
-<% @message.comments.each do |comment| %>
 
+<% @message.comments.each do |comment| %>
+<li id="comment-<%= comment.id %>">
   <p><%= simple_format comment.content %> at <%= comment.created_at.to_s(:short) %> by <%= comment.user.display_name %>
 
     <% if comment.user == current_user %>
       <%# TODO: 修改成 AJAX 版本的刪除 %>
-      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :data => { :confirm => "Are u sure?"} %>
+      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :data => { :confirm => "Are u sure?"}, :remote => true  %>
     <% end %>
   </p>
-
+</li>
 <% end %>
-
