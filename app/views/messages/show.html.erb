@@ -1,5 +1,29 @@
 <h2><%= @message.title %></h2>
 <%= simple_format @message.content %>
+<p>
+  <% like = @message.find_my_like(current_user) %>
+  <% if like %>
+    <%= link_to "Unlike", message_like_path(@message, like), :method => :delete, :class => "btn btn-danger" %>
+  <% else %>
+    <%= link_to "Like", message_likes_path(@message), :method => :post, :class => "btn btn-default" %>
+  <% end %>
+  Liked by
+  <% @message.liked_users.each do |u| %>
+    <%= u.display_name %>
+  <% end %>
+</p>
+<p>
+  <% subscription = @message.find_my_subscription(current_user) %>
+  <% if subscription %>
+    <%= link_to "Unsubscribe", message_subscription_path(@message, subscription), :method => :delete, :class => "btn btn-danger" %>
+  <% else %>
+    <%= link_to "Subscribe", message_subscriptions_path(@message), :method => :post, :class => "btn btn-default" %>
+  <% end %>
+  Subscribed by
+  <% @message.subscribed_users.each do |u| %>
+    <%= u.display_name %>
+  <% end %>
+</p>
 <h2>Comments list</h2>
 <%= form_for [@message, @comment] do |f| %>
   <p>
