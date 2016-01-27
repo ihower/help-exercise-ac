@@ -19,6 +19,25 @@ class MessagesController < ApplicationController
       @messages = @messages.within_days(params[:days].to_i)
       # @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
     end
+
+    respond_to do |format|
+      format.html
+      format.json {
+        arr = @messages.map { |m|
+          { id: m.id,
+            stauts: m.status,
+            category_name: m.category_name,
+            title: m.title,
+            user_id: m.user_id,
+            display_name: m.user.display_name,
+            content: m.content,
+            created_at: m.created_at
+          }
+        }
+        render json: {data: arr}
+      }
+
+    end
   end
 
   def show
