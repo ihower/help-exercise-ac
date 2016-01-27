@@ -1,5 +1,21 @@
 <h2><%= @message.title %></h2>
 
+<% like = @message.find_my_like(current_user) %>
+<% if like %>
+  <%= link_to "Unlike", message_like_path(@message, like), :method => :delete, :class => "btn btn-danger" %>
+<% else %>
+  <%= link_to "Like", message_likes_path(@message), :method => :post, :class => "btn btn-default" %>
+<% end %>
+
+<p>
+Liked by
+<% @message.liked_users.each do |u| %>
+  <%= link_to u.display_name, user_path(u) %>,
+<% end %>
+</p>
+
+
+
 <%= simple_format @message.content %>
 
 <h2>Comments list</h2>
@@ -19,13 +35,15 @@
 
 <% @message.comments.each do |comment| %>
 
+  <li id="comment-<%= comment.id %>">
   <p><%= simple_format comment.content %> at <%= comment.created_at.to_s(:short) %> by <%= comment.user.display_name %>
 
     <% if comment.user == current_user %>
       <%# TODO: 修改成 AJAX 版本的刪除 %>
-      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :data => { :confirm => "Are u sure?"} %>
+      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete,:remote => true %>
     <% end %>
   </p>
+  </li>
 
 <% end %>
 
