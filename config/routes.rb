@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  scope :path => '/api/v1', :module => 'api_v1', :as => 'v1', :defaults => { :format => :json } do
+    resources :messages
+  end
+
   resources :messages do
     resources :comments
+    resources :likes
+    resources :subscriptions
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
