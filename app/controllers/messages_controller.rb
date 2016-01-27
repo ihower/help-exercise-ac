@@ -3,20 +3,28 @@ class MessagesController < ApplicationController
   before_action :authenticate_user!, :except => [:index, :show]
 
   def index
-    # TODO: fix N+1 queries for user and comments
-    @messages = Message.order("id DESC").page( params[:page] )
+    # TODO: fix N+1 queries for user and comments V
+    @messages = Message.includes(:user,:comments).order("id DESC").page( params[:page] )
 
     if params[:status] == "pending"
-      # TODO: @messages = @messages.pending
-      @messages = @messages.where( :status => "pending" )
+      # TODO: @messages = @messages.pending V
+      @messages = @messages.pending
     elsif params[:status] == "completed"
-      # TODO: @messages = @messages.completed
-      @messages = @messages.where( :status => "completed" )
+      # TODO: @messages = @messages.completed V
+      @messages = @messages.completed
     end
 
     if params[:days]
       # TODO: @messages = @messages.within_days(params[:days].to_i)
-      @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
+      @messages = @messages.within_days(params[:days].to_i)
+    end
+
+    respond_to do |format|
+      format.html
+      format.json {
+        arr = @messages.map { |t|{ :id => t.id, :title => t.title }}
+        render :json => { :data => arr }
+       }
     end
   end
 
