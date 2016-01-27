@@ -18,6 +18,8 @@ class MessagesController < ApplicationController
       # TODO: @messages = @messages.within_days(params[:days].to_i)
       @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
     end
+
+    @messages = @messages.includes(:user, :comments)
   end
 
   def show
