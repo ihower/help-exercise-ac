@@ -1,5 +1,6 @@
 namespace :dev do
-
+  
+  task :rebuild=> ["db:drop", "db:setup", :fake]
   task :fake => :environment do
     User.delete_all
     Message.delete_all
@@ -16,7 +17,12 @@ namespace :dev do
                            :status => ["pending", "completed"].sample,
                            :content => Faker::Lorem.paragraph,
                            :user => users.sample,
-                           :created_at => Time.now - rand(30).days )
+                             :created_at => Time.now - rand(30).days )
+      2.times do  
+        Subscription.create!( :user_id => rand(1..User.all.size), :message_id => m.id )
+        Like.create!( :user_id => rand(1..User.all.size), :message_id => m.id )
+      end  
+
       5.times do
         m.comments.create!( :content => Faker::Lorem.paragraph,
                             :user => users.sample )

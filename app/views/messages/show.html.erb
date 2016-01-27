@@ -1,4 +1,13 @@
-<h2><%= @message.title %></h2>
+<h2>按讚der 的人：</h2>
+<% @message.likes.each do |a| %>
+<h3> <%= a.user.email%><%end%> </h3>
+
+<h2>訂閱der 的人：</h2>
+<% @message.subscriptions.each do |a| %>
+<h3><%= a.user.email%><%end%></h3>
+
+
+<h3><%= @message.title %></h3>
 
 <%= simple_format @message.content %>
 
