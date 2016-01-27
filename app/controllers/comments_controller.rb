@@ -8,15 +8,16 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     @comment.save!
-
-    redirect_to :back
   end
 
   def destroy
     @comment = current_user.comments.find( params[:id] )
     @comment.destroy
 
-    redirect_to :back
+    respond_to do |format|
+
+     format.js
+    end
   end
 
   protected

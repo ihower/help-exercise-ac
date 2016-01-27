@@ -4,19 +4,39 @@ class MessagesController < ApplicationController
 
   def index
     # TODO: fix N+1 queries for user and comments
-    @messages = Message.order("id DESC").page( params[:page] )
+    # use "includes"
+    @messages = Message.includes(:user => :comments).order("id DESC").page( params[:page] )
 
     if params[:status] == "pending"
-      # TODO: @messages = @messages.pending
-      @messages = @messages.where( :status => "pending" )
+      @messages = @messages.pending
+      # @messages = @messages.where( :status => "pending" )
     elsif params[:status] == "completed"
-      # TODO: @messages = @messages.completed
-      @messages = @messages.where( :status => "completed" )
+      @messages = @messages.completed
+      # @messages = @messages.where( :status => "completed" )
     end
 
     if params[:days]
-      # TODO: @messages = @messages.within_days(params[:days].to_i)
-      @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
+      @messages = @messages.within_days(params[:days].to_i)
+      # @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
+    end
+
+    respond_to do |format|
+      format.html
+      format.json {
+        arr = @messages.map { |m|
+          { id: m.id,
+            stauts: m.status,
+            category_name: m.category_name,
+            title: m.title,
+            user_id: m.user_id,
+            display_name: m.user.display_name,
+            content: m.content,
+            created_at: m.created_at
+          }
+        }
+        render json: {data: arr}
+      }
+
     end
   end
 
