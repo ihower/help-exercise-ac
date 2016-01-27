@@ -4,7 +4,7 @@ RSpec.describe User, type: :model do
 
   before do
     @user = User.create!( :email => "foobar@example.org", :password => "12345678")
-  end
+  end 
 
   describe "#posts_count" do
     before do
@@ -24,12 +24,17 @@ RSpec.describe User, type: :model do
 
   describe "#words_count" do
     before do
+      m1 = Message.create!( :user => @user ,:title =>"44 44 44 44",:content =>"5 5 5 5 5")
+      c1 = Comment.create!( :user => @user ,:message => m1, :content =>"6 6 6 6 6 6")
+
+      m2 = Message.create!( :user => @user ,:title =>"4 4 4 4",:content =>"5 5 5 5 5")
+      c2 = Comment.create!( :user => @user ,:message => m2, :content =>"6 6 6 6 6 6")
       # TODO: 加 Message 和 Comment 測試資料
     end
 
     it "加總該使用者的所有 Mesasge 和 Comment 的總字數" do
       # TODO: 測試 words_count 方法
-
+       expect( @user.words_count ).to eq(30)
     end
   end
 

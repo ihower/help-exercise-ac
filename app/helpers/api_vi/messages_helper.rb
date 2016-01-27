@@ -1,0 +1,2 @@
+module ApiVi::MessagesHelper
+end

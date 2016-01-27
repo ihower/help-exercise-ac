@@ -4,20 +4,24 @@ class MessagesController < ApplicationController
 
   def index
     # TODO: fix N+1 queries for user and comments
-    @messages = Message.order("id DESC").page( params[:page] )
+    @messages = Message.includes(:user,:comments).order("id DESC").page( params[:page] )
 
     if params[:status] == "pending"
-      # TODO: @messages = @messages.pending
-      @messages = @messages.where( :status => "pending" )
+      @messages = @messages.pending
+      #@messages = @messages.where( :status => "pending" )
     elsif params[:status] == "completed"
-      # TODO: @messages = @messages.completed
-      @messages = @messages.where( :status => "completed" )
+      @messages = @messages.completed
+      #@messages = @messages.where( :status => "completed" )
+    end
+    if params[:days]
+      @messages = @messages.within_days(params[:days].to_i)
+      #@messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
     end
 
-    if params[:days]
-      # TODO: @messages = @messages.within_days(params[:days].to_i)
-      @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
-    end
+    respond_to do |format|
+      format.html
+      format.json
+    end  
   end
 
   def show
@@ -51,7 +55,7 @@ class MessagesController < ApplicationController
 
     redirect_to message_path(@message)
   end
-
+ 
   def destroy
     @message = current_user.messages.find( params[:id] )
     @message.destroy

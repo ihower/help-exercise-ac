@@ -1,4 +1,13 @@
-<h2><%= @message.title %></h2>
+<h2>按讚der 的人：</h2>
+<% @message.likes.each do |a| %>
+<h3> <%= a.user.email%><%end%> </h3>
+
+<h2>訂閱der 的人：</h2>
+<% @message.subscriptions.each do |a| %>
+<h3><%= a.user.email%><%end%></h3>
+
+
+<h3><%= @message.title %></h3>
 
 <%= simple_format @message.content %>
 
@@ -17,15 +26,6 @@
 
 <% end %>
 
-<% @message.comments.each do |comment| %>
-
-  <p><%= simple_format comment.content %> at <%= comment.created_at.to_s(:short) %> by <%= comment.user.display_name %>
-
-    <% if comment.user == current_user %>
-      <%# TODO: 修改成 AJAX 版本的刪除 %>
-      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :data => { :confirm => "Are u sure?"} %>
-    <% end %>
-  </p>
-
-<% end %>
-
+<div id="comment">
+  <%= render "comments/comment" %>
+</div>
