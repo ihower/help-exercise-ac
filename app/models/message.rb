@@ -2,8 +2,11 @@ class Message < ActiveRecord::Base
 
   scope :pending, -> { where( :status => "pending" ) }
   scope :completed, -> { where( :status => "completed" ) }  
-  scope :within_days, -> { where(["created_at >= ?", Time.now - params[:days].to_i.days ]) }
+  #scope :within_days, -> { where(["created_at >= ?", Time.now - params[:days].to_i.days ]) }
 
+  def self.within_days(p)
+    where(["created_at > ? ", Time.now - p.days ])
+  end
 
   belongs_to :user
 
