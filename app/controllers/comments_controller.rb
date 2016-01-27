@@ -25,8 +25,6 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:content)
   end
 
-  def set_message
-    @message = Message.find( params[:message_id] )
-  end
+  
 
 end
