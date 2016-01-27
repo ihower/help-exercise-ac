@@ -3,8 +3,8 @@ class MessagesController < ApplicationController
   before_action :authenticate_user!, :except => [:index, :show]
 
   def index
-    # TODO: fix N+1 queries for user and comments
-    @messages = Message.order("id DESC").page( params[:page] )
+    
+    @messages = Message.includes(:user, :comments).order("id DESC").page( params[:page] )
 
     if params[:status] == "pending"
       # TODO: @messages = @messages.pending
