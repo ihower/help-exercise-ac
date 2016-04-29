@@ -27,9 +27,9 @@ class MessagesController < ApplicationController
     respond_to do |format|
       format.html
       format.json {
-        render :json => { :id => @message.id, :status, :category_name, :title, :content, :created_at}
+        render :json => { :id => @message.id, :status=> @message.status, :category_name=> @message.category_name, :title => @message.title, :content=> @message.content, :created_at=> @message.created_at}
       }
-
+    end
 
   end
 
