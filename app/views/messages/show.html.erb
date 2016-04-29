@@ -2,6 +2,23 @@
 
 <%= simple_format @message.content %>
 
+<h2> Like users </h2>
+  <ul>
+    <% @like_users.each do |user| %>
+      <li>
+        <%= user.display_name %>
+      </li>
+    <% end %>
+  </ul>
+<h2> Subscription users </h2>
+  <ul>
+    <% @subscription_users.each do |user| %>
+      <li>
+        <%= user.display_name %>
+      </li>
+    <% end %>
+  </ul>
+
 <h2>Comments list</h2>
 
 <%= form_for [@message, @comment] do |f| %>
@@ -18,14 +35,16 @@
 <% end %>
 
 <% @message.comments.each do |comment| %>
+  
+  <ul>
+    <li id="comment-<%= comment.id%>">
+      <%= simple_format comment.content %> at <%= comment.created_at.to_s(:short) %> by <%= comment.user.display_name %>
 
-  <p><%= simple_format comment.content %> at <%= comment.created_at.to_s(:short) %> by <%= comment.user.display_name %>
-
-    <% if comment.user == current_user %>
-      <%# TODO: 修改成 AJAX 版本的刪除 %>
-      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :data => { :confirm => "Are u sure?"} %>
-    <% end %>
-  </p>
+      <% if comment.user == current_user %>
+      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :data => { :confirm => "Are u sure?"}, :remote => true %>
+      <% end %>
+    </li>
+  </ul>
 
 <% end %>
 
