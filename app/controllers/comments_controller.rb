@@ -7,16 +7,23 @@ class CommentsController < ApplicationController
     @comment = @message.comments.build( comment_params )
     @comment.user = current_user
 
-    @comment.save!
-
-    redirect_to :back
+    if @comment.save
+      respond_to do |format|
+        format.html{redirect_to message_url(@message)}
+        format.js
+      end
+    else
+      render "messages/show"
+    end
   end
 
   def destroy
     @comment = current_user.comments.find( params[:id] )
     @comment.destroy
-
-    redirect_to :back
+    espond_to do |format|
+      format.html{redirect_to message_url(@message)}
+      format.js
+    end
   end
 
   protected
