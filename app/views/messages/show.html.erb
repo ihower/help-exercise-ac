@@ -26,7 +26,7 @@
 
     <% if comment.user == current_user %>
       <%# TODO: 修改成 AJAX 版本的刪除 %>
-      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :remote => true %>
+      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :remote => true, :class => "haha" %>
     <% end %>
 
   </p>
