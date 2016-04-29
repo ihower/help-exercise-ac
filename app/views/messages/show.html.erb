@@ -23,9 +23,11 @@
 
     <% if comment.user == current_user %>
       <%# TODO: 修改成 AJAX 版本的刪除 %>
-      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :data => { :confirm => "Are u sure?"} %>
+      <%#= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :remote => true,{:id=>"delete", :data => { :confirm => "Are u sure?"}} %>
+        <div id="comment-<%= comment.id %>">
+        <%= render :partial => "delete", :locals => {:message => @message ,:comment=> comment} %>
+        </div>
     <% end %>
   </p>
 
 <% end %>
-
