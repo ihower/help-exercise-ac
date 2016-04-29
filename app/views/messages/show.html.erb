@@ -17,6 +17,18 @@
 
 <% end %>
 
+<p>who like:</p>
+<ul>
+<% @message.likes.each do |l|%>
+  <li><%=l.user.display_name%></li> 
+<%end%>
+</ul>
+<p>who subscribe:</p>
+<ul>
+<% @message.subscriptions.each do |s|%>
+  <li><%= s.user.display_name%></li> 
+<%end%>
+</ul>
 <% @message.comments.each do |comment| %>
   <div id="p-<%=comment.id%>">
   <p><%= simple_format comment.content %> at <%= comment.created_at.to_s(:short) %> by <%= comment.user.display_name %>

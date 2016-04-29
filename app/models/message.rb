@@ -1,7 +1,8 @@
 class Message < ActiveRecord::Base
 
   belongs_to :user
-
+  has_many :subscriptions
+  has_many :likes
   has_many :comments, :dependent => :destroy
   scope :within_days,  lambda{ |t| where( ["created_at >= ?", Time.now-t.days ] )}    
   scope :pending, -> {where( :status => "pending" )}
