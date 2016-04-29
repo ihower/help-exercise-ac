@@ -2,7 +2,12 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :messages do
+    resources :likes
     resources :comments
+  end
+
+  scope :path => '/api/v1/', :module => "api_v1", :as => 'v1', :defaults => { :format => :json } do
+   get "/messages" => "messages#messages"
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
