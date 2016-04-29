@@ -9,6 +9,7 @@ namespace :dev do
     10.times do
       users << User.create!( :email => Faker::Internet.email,
                              :password => "12345678")
+      puts"create fake data"
     end
 
     20.times do
