@@ -1,4 +1,7 @@
 class Message < ActiveRecord::Base
+  scope :pending, → { where( :status => "pending" ) }
+  scope :completed, → { where( :status => "completed" ) 
+  scope :foobar, ->(days) { where( 'created_at >= ?', Time.now-7.days) }
 
   belongs_to :user
 
