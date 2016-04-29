@@ -1,22 +1,26 @@
 class MessagesController < ApplicationController
+  # 3. (改 ActiveRecord Scope) 在首頁目前可以點選「列出進行中訊息 | 列出一週內進行中的訊息 | 列出所有已完成訊息」過濾出不同狀態和時間的
+  # Messages。請修改 controllers/messages_controller.rb L10-11, L13-14, L18-19 和 models/message.rb
+  # 重構成使用 ActiveRecord Scope。
 
   before_action :authenticate_user!, :except => [:index, :show]
 
   def index
     # TODO: fix N+1 queries for user and comments
-    @messages = Message.order("id DESC").page( params[:page] )
+
+    @messages = Message.includes(:user,:comments).order("id DESC").page( params[:page] )
 
     if params[:status] == "pending"
-      # TODO: @messages = @messages.pending
-      @messages = @messages.where( :status => "pending" )
+      #@messages = Messages.pending
+      @messages = @messages.pending
     elsif params[:status] == "completed"
-      # TODO: @messages = @messages.completed
-      @messages = @messages.where( :status => "completed" )
+      # TODO: @messages = Messages.completed
+      @messages = @messages.completed
     end
 
     if params[:days]
       # TODO: @messages = @messages.within_days(params[:days].to_i)
-      @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
+      @messages = @messages.within_days(params[:days].to_i)
     end
   end
 
