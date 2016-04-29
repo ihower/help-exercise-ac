@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'messages#index'
 
+  scope :path => '/api/v1/', :module => "api_v1", :as => 'v1', :defaults => { :format => :json } do
+    resources :messages
+  end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
