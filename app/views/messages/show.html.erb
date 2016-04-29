@@ -1,31 +1,42 @@
 <h2><%= @message.title %></h2>
 
 <%= simple_format @message.content %>
-
+<h3>Likes</h3>
+<% @message.like_users.each do |user| %>
+    <p><%= user.email%></p>
+<% end %>
+<hr>
+<h3>Subscribed</h3>
+<% @message.subscribed_users.each do |user| %>
+    <p><%= user.email%></p>
+<% end %>
+<hr>
 <h2>Comments list</h2>
 
 <%= form_for [@message, @comment] do |f| %>
 
-  <p>
-    <%= f.label :content %>
-    <%= f.text_area :content, :required => true %>
-  </p>
+    <p>
+      <%= f.label :content %>
+      <%= f.text_area :content, :required => true %>
+    </p>
 
-  <p>
-    <%= f.submit %>
-  </p>
+    <p>
+      <%= f.submit %>
+    </p>
 
 <% end %>
 
 <% @message.comments.each do |comment| %>
+    <div id="comment-<%= comment.id %>">
+      <p><%= simple_format comment.content %> at <%= comment.created_at.to_s(:short) %>
+        by <%= comment.user.display_name %>
 
-  <p><%= simple_format comment.content %> at <%= comment.created_at.to_s(:short) %> by <%= comment.user.display_name %>
-
-    <% if comment.user == current_user %>
-      <%# TODO: 修改成 AJAX 版本的刪除 %>
-      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :data => { :confirm => "Are u sure?"} %>
-    <% end %>
-  </p>
-
+        <% if comment.user == current_user %>
+            <%# TODO: 修改成 AJAX 版本的刪除 %>
+            <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :remote => true %>
+        <% end %>
+      </p>
+    </div>
 <% end %>
+
 

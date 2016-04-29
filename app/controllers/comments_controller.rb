@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    @comment = @message.comments.build( comment_params )
+    @comment = @message.comments.build(comment_params)
     @comment.user = current_user
 
     @comment.save!
@@ -13,10 +13,13 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = current_user.comments.find( params[:id] )
+    @comment = current_user.comments.find(params[:id])
     @comment.destroy
 
-    redirect_to :back
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js # destroy.js.erb
+    end
   end
 
   protected
@@ -26,7 +29,7 @@ class CommentsController < ApplicationController
   end
 
   def set_message
-    @message = Message.find( params[:message_id] )
+    @message = Message.find(params[:message_id])
   end
 
 end
