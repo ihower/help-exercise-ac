@@ -1,44 +1,44 @@
 <h2>Message list</h2>
 
 <p>
-<%= link_to "New Message", new_message_path %>
+  <%= link_to "New Message", new_message_path %>
 </p>
 
 <p>
-  <%= link_to "列出進行中訊息", messages_path( :status => "pending" ) %> |
-  <%= link_to "列出一週內進行中的訊息", messages_path( :status => "pending", :days => 7 ) %> |
-  <%= link_to "列出所有已完成訊息", messages_path( :status => "completed" ) %>
+  <%= link_to "列出進行中訊息", messages_path(:status => "pending") %> |
+  <%= link_to "列出一週內進行中的訊息", messages_path(:status => "pending", :days => 7) %> |
+  <%= link_to "列出所有已完成訊息", messages_path(:status => "completed") %>
 </p>
 
 <%= paginate @messages %>
 
 <table>
-<tr>
-  <th>標題</th>
-  <th>狀態</th>
-  <th>分類</th>
-  <th>貼文使用者</th>
-  <th>貼文時間</th>
-  <th>最後一筆留言摘要</th>
-  <th></th>
-</tr>
-
-<% @messages.each do |msg| %>
   <tr>
-    <td><%= link_to msg.title, message_path(msg) %></td>
-    <td><%= msg.status %></td>
-    <td><%= msg.category_name %></td>
-    <td><%= msg.user.display_name %></td>
-    <td><%= msg.created_at.to_s(:short) %></td>
-    <td><%= msg.last_comment_summary %></td>
-    <td>
-      <% if msg.user == current_user %>
-        <%= link_to "Edit", edit_message_path(msg) %>
-        <%= link_to "Delete", message_path(msg), :method => :delete, :data => { :confirm => "Are u sure?"} %>
-      <% end %>
-    </td>
+    <th>標題</th>
+    <th>狀態</th>
+    <th>分類</th>
+    <th>貼文使用者</th>
+    <th>貼文時間</th>
+    <th>最後一筆留言摘要</th>
+    <th></th>
   </tr>
-<% end %>
+
+  <% @messages.each do |msg| %>
+      <tr>
+        <td><%= link_to msg.title, message_path(msg) %></td>
+        <td><%= msg.status %></td>
+        <td><%= msg.category_name %></td>
+        <td><%= msg.user.display_name %></td>
+        <td><%= msg.created_at.to_s(:short) %></td>
+        <td><%= msg.last_comment_summary %></td>
+        <td>
+          <% if msg.user == current_user %>
+              <%= link_to "Edit", edit_message_path(msg) %>
+              <%= link_to "Delete", message_path(msg), :method => :delete, :data => {:confirm => "Are u sure?"} %>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
 </table>
 
 <%= paginate @messages %>
