@@ -2,7 +2,7 @@ class ApiV1::TopicsController < ApiController
 
 
   def show
-    @messages = Messages.find(params[:id])
+    @messages = Messages.all
 
   end
 

@@ -25,12 +25,12 @@ ActiveRecord::Schema.define(version: 20160429081538) do
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "topic_id"
+    t.integer  "message_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "likes", ["topic_id"], name: "index_likes_on_topic_id"
+  add_index "likes", ["message_id"], name: "index_likes_on_message_id"
   add_index "likes", ["user_id"], name: "index_likes_on_user_id"
 
   create_table "messages", force: :cascade do |t|
@@ -48,12 +48,12 @@ ActiveRecord::Schema.define(version: 20160429081538) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "topic_id"
+    t.integer  "message_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "subscriptions", ["topic_id"], name: "index_subscriptions_on_topic_id"
+  add_index "subscriptions", ["message_id"], name: "index_subscriptions_on_message_id"
   add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id"
 
   create_table "users", force: :cascade do |t|

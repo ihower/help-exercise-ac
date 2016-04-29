@@ -1,4 +1,19 @@
 <h2><%= @message.title %></h2>
+<% like = @message.finy_like_by(current_user) %>
+
+<h2><%= @message.likes.count %></h2>
+<% if like %>
+    <%= link_to "Unlike", message_like_path(@message, like), :method => :delete, :class => "btn btn-primary btn-lg" %>
+<% else %>
+    <%= link_to "Like", message_likes_path(@message), :method => :post, :class => "btn btn-primary btn-lg" %>
+<% end %>
+
+<% subscription = @message.finy_subscription_by(current_user) %>
+<% if subscription %>
+    <%= link_to "Unsubscribe", unsubscribe_message_path(@message), :method => :post, :class => "btn btn-primary btn-lg" %>
+<% else %>
+    <%= link_to "Subscribe", subscribe_message_path(@message), :method => :post, :class => "btn btn-primary btn-lg" %>
+<% end %>
 
 <%= simple_format @message.content %>
 
@@ -25,7 +40,7 @@
 
         <% if comment.user == current_user %>
             <%# TODO: 修改成 AJAX 版本的刪除 %>
-            <%= link_to "Delete", message_comment_path(@message, comment), :remote => true , :method => :delete %>
+            <%= link_to "Delete", message_comment_path(@message, comment), :remote => true, :method => :delete %>
         <% end %>
       </p>
     </div>
