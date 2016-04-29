@@ -1,27 +1,26 @@
 class MessagesController < ApplicationController
-
-  before_action :authenticate_user!, :except => [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     # TODO: fix N+1 queries for user and comments
-    @messages = Message.order("id DESC").page( params[:page] )
+    @messages = Message.order('id DESC').page(params[:page])
 
-    if params[:status] == "pending"
+    if params[:status] == 'pending'
       # TODO: @messages = @messages.pending
-      @messages = @messages.where( :status => "pending" )
-    elsif params[:status] == "completed"
+      @messages = @messages.pending
+    elsif params[:status] == 'completed'
       # TODO: @messages = @messages.completed
-      @messages = @messages.where( :status => "completed" )
+      @messages = @messages.completed
     end
 
     if params[:days]
       # TODO: @messages = @messages.within_days(params[:days].to_i)
-      @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
+      @messages = @messages.foobar
     end
   end
 
   def show
-    @message = Message.find( params[:id] )
+    @message = Message.find(params[:id])
     @comment = Comment.new
   end
 
@@ -30,7 +29,7 @@ class MessagesController < ApplicationController
   end
 
   def create
-    @message = Message.new( message_params )
+    @message = Message.new(message_params)
     @message.user = current_user
 
     @message.save!
@@ -39,21 +38,21 @@ class MessagesController < ApplicationController
   end
 
   def edit
-    @message = current_user.messages.find( params[:id] )
+    @message = current_user.messages.find(params[:id])
 
-    render "new"
+    render 'new'
   end
 
   def update
-    @message = current_user.messages.find( params[:id] )
+    @message = current_user.messages.find(params[:id])
 
-    @message.update!( message_params )
+    @message.update!(message_params)
 
     redirect_to message_path(@message)
   end
 
   def destroy
-    @message = current_user.messages.find( params[:id] )
+    @message = current_user.messages.find(params[:id])
     @message.destroy
 
     redirect_to root_path
@@ -64,5 +63,4 @@ class MessagesController < ApplicationController
   def message_params
     params.require(:message).permit(:title, :content, :category_name)
   end
-
 end
