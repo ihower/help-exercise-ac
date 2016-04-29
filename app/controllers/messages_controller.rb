@@ -56,7 +56,10 @@ class MessagesController < ApplicationController
     @message = current_user.messages.find( params[:id] )
     @message.destroy
 
-    redirect_to root_path
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js
+    end
   end
 
   protected
