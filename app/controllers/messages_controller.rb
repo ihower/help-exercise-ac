@@ -4,8 +4,8 @@ class MessagesController < ApplicationController
 
   def index
     # TODO: fix N+1 queries for user and comments
-    @messages = Message.order("id DESC").page( params[:page] )
-
+#    @messages = Message.order("id DESC").page( params[:page] )    
+    @messages = Message.includes(:comments, :user).order("id DESC").page( params[:page] )
     if params[:status] == "pending"
       # TODO: @messages = @messages.pending
       @messages = @messages.where( :status => "pending" )
