@@ -8,21 +8,29 @@ class MessagesController < ApplicationController
 
     if params[:status] == "pending"
       # TODO: @messages = @messages.pending
-      @messages = @messages.where( :status => "pending" )
+      @messages = @messages.include(:user).where( :status => "pending" )
     elsif params[:status] == "completed"
       # TODO: @messages = @messages.completed
-      @messages = @messages.where( :status => "completed" )
+      @messages = @messages.include(:user).where( :status => "completed" )
     end
 
     if params[:days]
       # TODO: @messages = @messages.within_days(params[:days].to_i)
-      @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
+      @messages = @messages.include(:user).where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
     end
   end
 
   def show
     @message = Message.find( params[:id] )
     @comment = Comment.new
+
+    respond_to do |format|
+      format.html
+      format.json {
+        render :json => { :id => @message.id, :status=> @message.status, :category_name=> @message.category_name, :title => @message.title, :content=> @message.content, :created_at=> @message.created_at}
+      }
+    end
+
   end
 
   def new
