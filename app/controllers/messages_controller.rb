@@ -31,7 +31,7 @@ class MessagesController < ApplicationController
 
   def create
     @message = Message.new( message_params )
-    @message.user = current_user
+    @message.user = user
 
     @message.save!
 
@@ -39,13 +39,13 @@ class MessagesController < ApplicationController
   end
 
   def edit
-    @message = current_user.messages.find( params[:id] )
+    @message = user.messages.find( params[:id] )
 
     render "new"
   end
 
   def update
-    @message = current_user.messages.find( params[:id] )
+    @message = user.messages.find( params[:id] )
 
     @message.update!( message_params )
 
@@ -53,11 +53,33 @@ class MessagesController < ApplicationController
   end
 
   def destroy
-    @message = current_user.messages.find( params[:id] )
+    @message = user.messages.find( params[:id] )
     @message.destroy
 
     redirect_to root_path
   end
+
+  def subscribe
+   @message = message.find( params[:id] )
+
+   subscription = @message.finy_subscription_by(user)
+   if subscription
+     # do nothing
+   else
+     @subscription = @message.subscriptions.create!( :user => user )
+   end
+
+   redirect_to :back
+ end
+
+ def unsubscribe
+   @message = message.find( params[:id] )
+
+   subscription = @message.finy_subscription_by(user)
+   subscription.destroy
+
+   redirect_to :back
+ end
 
   protected
 
