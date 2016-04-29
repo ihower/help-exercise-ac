@@ -4,6 +4,13 @@ class Message < ActiveRecord::Base
 
   has_many :comments, :dependent => :destroy
 
+
+  has_many :like_users, :through => :likes, :source => :user
+  has_many :likes
+
+
+
+
   def last_comment_summary
     self.comments.last.try(:content).try(:truncate, 20)
   end
