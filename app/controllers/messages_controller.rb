@@ -23,6 +23,14 @@ class MessagesController < ApplicationController
   def show
     @message = Message.find( params[:id] )
     @comment = Comment.new
+
+    respond_to do |format|
+      format.html
+      format.json {
+        render :json => { :id => @message.id, :status, :category_name, :title, :content, :created_at}
+      }
+
+
   end
 
   def new
