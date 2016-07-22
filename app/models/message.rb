@@ -19,4 +19,8 @@ class Message < ActiveRecord::Base
   def self.within_days(params)
   	where( ["created_at >= ?", Time.now - params.days ] )
   end
+
+  def find_my_subscription(user)
+    self.subscriptions.where( :user => user ).first
+  end
 end

@@ -37,6 +37,16 @@
         <%= link_to "Delete", message_path(msg), :method => :delete, :data => { :confirm => "Are u sure?"} %>
       <% end %>
     </td>
+    <td>
+      <% subscription = msg.find_my_subscription(current_user) %>
+
+       <% if subscription %>
+       <%= link_to "Unsubscribe", unsubscribe_message_path(msg), :class => "btn btn-primary", :method => :post %>
+       <% else %>
+         <%= link_to "Subscribe", subscribe_message_path(msg), :class => "btn btn-primary", :method => :post %>
+       <% end %>
+    </td>
+
   </tr>
 <% end %>
 </table>

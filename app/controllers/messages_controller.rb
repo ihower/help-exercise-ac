@@ -59,6 +59,25 @@ class MessagesController < ApplicationController
     redirect_to root_path
   end
 
+  def subscribe
+    @message = Message.find( params[:id] )
+    @subscription = @message.find_my_subscription(current_user)
+    unless @subscription
+      @subscription = Subscription.create!( :message => @message, :user => current_user )
+    end
+
+    redirect_to :back
+  end
+
+  def unsubscribe
+    @message = Message.find( params[:id] )
+    @subscription = @message.find_my_subscription(current_user)
+    @subscription.destroy
+
+    redirect_to :back
+  end
+
+
   protected
 
   def message_params
