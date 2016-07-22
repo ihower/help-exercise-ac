@@ -2,6 +2,22 @@
 
 <%= simple_format @message.content %>
 
+<h4>Who like this message : </h4>
+<ul>
+  <% @message.liked_users.each do |liked_user| %>
+    <li><%= liked_user.nickname %></li>
+  <% end %>
+</ul>
+
+<h4>Who Subscribe this message</h4>
+<ul>
+  <% @message.subscribed_users.each do |subscribed_user| %>
+    <li><%= subscribed_user.nickname %></li>
+
+  <% end %>
+</ul>
+
+
 <h2>Comments list</h2>
 
 <%= form_for [@message, @comment] do |f| %>
@@ -18,14 +34,13 @@
 <% end %>
 
 <% @message.comments.each do |comment| %>
+  <div id="comment-<%= comment.id %>">
+    <p><%= simple_format comment.content %> at <%= comment.created_at.to_s(:short) %> by <%= comment.user.display_name %>
 
-  <p><%= simple_format comment.content %> at <%= comment.created_at.to_s(:short) %> by <%= comment.user.display_name %>
-
-    <% if comment.user == current_user %>
-      <%# TODO: 修改成 AJAX 版本的刪除 %>
-      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :data => { :confirm => "Are u sure?"} %>
-    <% end %>
-  </p>
-
+      <% if comment.user == current_user %>
+        <%# TODO: 修改成 AJAX 版本的刪除 %>
+        <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :data => { :confirm => "Are u sure?"}, :remote => true %>
+      <% end %>
+    </p>
+  </div>
 <% end %>
-
