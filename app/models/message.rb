@@ -8,4 +8,9 @@ class Message < ActiveRecord::Base
     self.comments.last.try(:content).try(:truncate, 20)
   end
 
+  scope :pending, -> { where :status => "pending" }
+  scope :completed, -> { where :status => "completed" }
+  scope :within_days, -> (time) { where "created_at >= ?", Time.now - time.to_i.days }
+
+
 end
