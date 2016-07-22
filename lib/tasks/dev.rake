@@ -17,6 +17,14 @@ namespace :dev do
                            :content => Faker::Lorem.paragraph,
                            :user => users.sample,
                            :created_at => Time.now - rand(30).days )
+
+                           users.sample(5).each do |s|
+                             Subscription.create!(:user => s, :message => m)
+                           end
+                           users.sample(5).each do |l|
+                             Like.create!(:user => l, :message => m)
+                           end
+
       5.times do
         m.comments.create!( :content => Faker::Lorem.paragraph,
                             :user => users.sample )
