@@ -15,8 +15,8 @@ class MessagesController < ApplicationController
     end
 
     if params[:days]
-      @messages = @messages.within_days(params[:days].to_i)
-      # @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
+      # @messages = @messages.within_days(params[:days].to_i)
+      @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
     end
   end
 
@@ -56,10 +56,7 @@ class MessagesController < ApplicationController
     @message = current_user.messages.find( params[:id] )
     @message.destroy
 
-    respond_to do |format|
-      format.html{redirect_to :root}
-      format.js
-    end
+    redirect_to root_path
 
   end
 
