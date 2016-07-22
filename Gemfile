@@ -17,6 +17,8 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'devise'
 gem 'kaminari'
 gem 'faker'
+gem "turbolinks"
+gem 'nested_form_fields'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
