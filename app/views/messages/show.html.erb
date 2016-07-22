@@ -3,6 +3,16 @@
 <%= simple_format @message.content %>
 
 <h2>Comments list</h2>
+<h2> Liked by 
+  <% @message.liked_users.each do |user| %> 
+    <%= user.email %>
+  <% end %>
+</h2>
+<h2> Subscripted by 
+  <% @message.subscripted_users.each do |user| %> 
+    <%= user.email %>
+  <% end %>
+</h2>
 
 <%= form_for [@message, @comment] do |f| %>
 
