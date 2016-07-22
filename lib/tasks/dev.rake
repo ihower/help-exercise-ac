@@ -21,6 +21,10 @@ namespace :dev do
         m.comments.create!( :content => Faker::Lorem.paragraph,
                             :user => users.sample )
       end
+
+      m.liked_user_ids = m.liked_user_ids << users.sample.id
+      m.subscripted_user_ids = m.subscripted_user_ids << users.sample.id
+
     end
   end
 
