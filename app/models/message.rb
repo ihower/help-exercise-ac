@@ -6,7 +6,8 @@ class Message < ActiveRecord::Base
 
   has_many :subscriptions, :dependent => :destroy
   has_many :subscribed_users, :through => :subscriptions, :source => :user
-
+  has_many :likes, :dependent => :destroy
+  has_many :liked_users, :through => :subscriptions, :source => :user
 
 
   def last_comment_summary

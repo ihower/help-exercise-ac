@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     member do
       post :subscribe
       post :unsubscribe
+      post :like
+      post :dislike
     end
   end
 
