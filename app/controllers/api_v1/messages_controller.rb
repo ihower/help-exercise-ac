@@ -3,3 +3,5 @@ class ApiV1::MessagesController < ApiController
     @messages = Message.all
   end
 end
+
+

@@ -4,6 +4,24 @@
 
 <h2>Comments list</h2>
 
+<h4>Likes</h4>
+
+<% @message.liked_users.each do |user| %>
+  <p><%= user.email %></p>
+<% end %>
+
+<hr>
+
+<h4>Subscriptions</h4>
+
+<% @message.subscribed_users.each do |user| %>
+  <p><%= user.email %></p>
+<% end %>
+
+<% @message.liked_users.each do |user| %>
+  <p><%= user.email %></p>
+<% end %>
+
 <%= form_for [@message, @comment] do |f| %>
 
   <p>
@@ -26,4 +44,6 @@
       <% end %>
   </div>
 <% end %>
+
+
 
