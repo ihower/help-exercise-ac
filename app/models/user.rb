@@ -7,12 +7,19 @@ class User < ActiveRecord::Base
   has_many :messages
   has_many :comments
 
+  has_many :likes, :dependent => :destroy
+  has_many :like_messages, :through => :likes, :source => :message, :dependent => :destroy
+
+  has_many :subscriptions, :dependent => :destroy
+  has_many :subscriptions_by, :through => :likes, :source => :message, :dependent => :destroy
+
+
   def display_name
     self.email.split("@").first
   end
 
   def posts_count
-    # TODO: 請完成我
+    self.messages.count + self.comments.count
   end
 
   def words_count
