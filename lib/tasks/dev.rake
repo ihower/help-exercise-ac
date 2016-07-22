@@ -21,6 +21,20 @@ namespace :dev do
         m.comments.create!( :content => Faker::Lorem.paragraph,
                             :user => users.sample )
       end
+      2.times do
+        user = User.all.sample
+        subscription = m.find_my_subscription(user)
+        unless subscription
+          Subscription.create!( :message => @message, :user => user )
+        end
+      end
+      2.times do
+        user = User.all.sample
+        like = m.find_my_like(user)
+        unless like
+          Like.create!( :message => @message, :user => user )
+        end
+      end
     end
   end
 
