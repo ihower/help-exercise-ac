@@ -7,16 +7,16 @@ class MessagesController < ApplicationController
     @messages = Message.includes(:comments).order("id DESC").page( params[:page] )
 
     if params[:status] == "pending"
-      # TODO: @messages = @messages.pending
-      @messages = @messages.where( :status => "pending" )
+      @messages = @messages.pending
+      # @messages = @messages.where( :status => "pending" )
     elsif params[:status] == "completed"
-      # TODO: @messages = @messages.completed
-      @messages = @messages.where( :status => "completed" )
+      @messages = @messages.completed
+      # @messages = @messages.where( :status => "completed" )
     end
 
     if params[:days]
-      # TODO: @messages = @messages.within_days(params[:days].to_i)
-      @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
+      @messages = @messages.within_days(params[:days].to_i)
+      # @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
     end
   end
 
