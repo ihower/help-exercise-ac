@@ -1,6 +1,6 @@
 class ApiV1::MessagesController < ApplicationController
 
 	def index
-		@messages = Massage.all
+		@messages = Message.all
 	end
 end

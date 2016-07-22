@@ -1,5 +1,5 @@
 json.data do
-  json.array!(@message) do |message|
+  json.array!(@messages) do |message|
     json.id message.id
     json.status message.status
     json.category_name message.category_name
