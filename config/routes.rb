@@ -5,6 +5,10 @@ Rails.application.routes.draw do
     resources :comments
   end
 
+  scope :path => '/api/v1/', :defaults => { :format => :json }, :module => "api_v1", :as => 'v1' do
+    get "/messages" => "messages#index"
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
