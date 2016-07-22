@@ -21,6 +21,9 @@ class MessagesController < ApplicationController
   def show
     @message = Message.find( params[:id] )
     @comment = Comment.new
+
+    @subscribed_users = @message.subscribed_users
+    @liked_users = @message.liked_users
   end
 
   def new
