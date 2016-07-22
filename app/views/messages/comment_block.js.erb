@@ -1,2 +1,3 @@
 
-$("#comment-block").html("<%=j render :partial => "messages/comment" %>");
+$("#comment-block-<%= @comment.id %>").remove();
+
