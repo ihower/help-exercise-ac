@@ -5,6 +5,9 @@ namespace :dev do
     Message.delete_all
     Comment.delete_all
 
+    Subscription.delete_all
+    Like.delete_all
+
     users = []
     10.times do
       users << User.create!( :email => Faker::Internet.email,
@@ -17,6 +20,11 @@ namespace :dev do
                            :content => Faker::Lorem.paragraph,
                            :user => users.sample,
                            :created_at => Time.now - rand(30).days )
+      users.sample(3).each do |u|
+        Subscription.create!(:user => u, :message => m)
+        Like.create!(:user => u, :message => m)
+      end
+
       5.times do
         m.comments.create!( :content => Faker::Lorem.paragraph,
                             :user => users.sample )
