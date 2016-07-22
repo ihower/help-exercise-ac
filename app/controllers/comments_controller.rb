@@ -16,7 +16,7 @@ class CommentsController < ApplicationController
     @comment = current_user.comments.find( params[:id] )
     @comment.destroy
 
-    redirect_to :back
+    render "messages/show"
   end
 
   protected
