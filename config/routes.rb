@@ -5,6 +5,12 @@ Rails.application.routes.draw do
     resources :comments
   end
 
+  #GET /api/v1/messages
+
+  scope :path => "api/v1", :module => "api/v1", :defaults => {:format => :json} do
+    resources :messages
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
