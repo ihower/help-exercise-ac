@@ -1,5 +1,15 @@
 <h2><%= @message.title %></h2>
 
+like people :
+<% @message.liked_users.each do |l| %>
+  "<%=l.display_name %>"
+<%end%>
+<br>
+like subscription :
+<% @message.subscribed_users.each do |l| %>
+  "<%=l.display_name %>"
+<%end%>
+
 <%= simple_format @message.content %>
 
 <h2>Comments list</h2>
@@ -25,7 +35,9 @@
       <%# TODO: 修改成 AJAX 版本的刪除 %>
       <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :remote => true,:data => { :confirm => "Are u sure?"} %>
     <% end %>
+
   </p>
   </div>
 <% end %>
+
 
