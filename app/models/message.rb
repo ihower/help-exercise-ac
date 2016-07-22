@@ -24,4 +24,7 @@ class Message < ActiveRecord::Base
   def find_my_subscription(user)
     self.subscriptions.where( :user => user ).first
   end
+  def find_my_like(user)
+    self.likes.where( :user => user ).first
+  end
 end

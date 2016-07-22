@@ -46,6 +46,15 @@
          <%= link_to "Subscribe", subscribe_message_path(msg), :class => "btn btn-primary", :method => :post %>
        <% end %>
     </td>
+    <td>
+      <% like = msg.find_my_like(current_user) %>
+
+       <% if like %>
+       <%= link_to "dislike", dislike_message_path(msg), :class => "btn btn-primary", :method => :post %>
+       <% else %>
+         <%= link_to "like", like_message_path(msg), :class => "btn btn-primary", :method => :post %>
+       <% end %>
+    </td>
 
   </tr>
 <% end %>

@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-
+  before_action :set_message ,:only =>[:show,:subscribe,:unsubscribe,:like,:dislike]
   before_action :authenticate_user!, :except => [:index, :show]
 
   def index
@@ -21,7 +21,6 @@ class MessagesController < ApplicationController
   end
 
   def show
-    @message = Message.find( params[:id] )
     @comment = Comment.new
   end
 
@@ -60,7 +59,6 @@ class MessagesController < ApplicationController
   end
 
   def subscribe
-    @message = Message.find( params[:id] )
     @subscription = @message.find_my_subscription(current_user)
     unless @subscription
       @subscription = Subscription.create!( :message => @message, :user => current_user )
@@ -70,15 +68,33 @@ class MessagesController < ApplicationController
   end
 
   def unsubscribe
-    @message = Message.find( params[:id] )
     @subscription = @message.find_my_subscription(current_user)
     @subscription.destroy
 
     redirect_to :back
   end
 
+  def like
+    @like = @message.find_my_like(current_user)
+    unless @like
+      @like = Like.create!( :message => @message, :user => current_user )
+    end
+
+    redirect_to :back
+  end
+
+  def dislike
+    @like = @message.find_my_like(current_user)
+    @like.destroy
+
+    redirect_to :back
+  end
+
 
   protected
+  def set_message
+    @message = Message.find( params[:id] )
+  end
 
   def message_params
     params.require(:message).permit(:title, :content, :category_name)
