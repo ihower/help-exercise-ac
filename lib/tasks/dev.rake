@@ -17,14 +17,13 @@ namespace :dev do
                            :content => Faker::Lorem.paragraph,
                            :user => users.sample,
                            :created_at => Time.now - rand(30).days )
+      m.liked_user_ids = m.liked_user_ids << users.sample.id
+      m.subscripted_user_ids = m.subscripted_user_ids << users.sample.id
+
       5.times do
         m.comments.create!( :content => Faker::Lorem.paragraph,
                             :user => users.sample )
       end
-
-      m.liked_user_ids = m.liked_user_ids << users.sample.id
-      m.subscripted_user_ids = m.subscripted_user_ids << users.sample.id
-
     end
   end
 
