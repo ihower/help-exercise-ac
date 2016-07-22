@@ -3,6 +3,10 @@ Rails.application.routes.draw do
 
   resources :messages do
     resources :comments
+    member do
+      post :subscribe
+      post :unsubscribe
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
