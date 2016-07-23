@@ -1,6 +1,10 @@
 class Message < ActiveRecord::Base
 
   belongs_to :user
+  has_many :subscriptions
+  has_many :likes
+  has_many :liked_users, :through => :likes, :source => :user
+  has_many :subscript_users, :through => :subscriptions, :source => :user
 
   has_many :comments, :dependent => :destroy
 
