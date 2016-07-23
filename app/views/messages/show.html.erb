@@ -2,6 +2,16 @@
 
 <%= simple_format @message.content %>
 
+<h2>This message is liked by:</h2>
+  <% @message.likes.each do |like| %>
+    <%= like.user.display_name %>
+  <% end %>
+
+<h2>This message is subscript by:</h2>
+  <% @message.subscriptions.each do |subscription| %>
+    <%= subscription.user.display_name %>
+  <% end %>  
+
 <h2>Comments list</h2>
 
 <%= form_for [@message, @comment] do |f| %>
