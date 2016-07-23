@@ -21,6 +21,15 @@ namespace :dev do
         m.comments.create!( :content => Faker::Lorem.paragraph,
                             :user => users.sample )
       end
+
+      1.times do
+        sample_id_1 = users.sample.id
+        sample_id_2 = users.sample.id
+        m.likes.create!( :user_id => sample_id_1 )
+        m.subscriptions.create!( :user_id => sample_id_2 )
+      end
+  
+
     end
   end
 
