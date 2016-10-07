@@ -17,6 +17,32 @@
 
 <% end %>
 
+<table class="table table-striped">
+    <tr>
+      <td><h2>Who likes?</h2></td>
+    </tr>
+    <br>
+    <hr>
+    <tr>  
+  <% @message.liked_users.each do |i| %>
+    <td><%= i.display_name %></td>
+    </tr> 
+  <% end %>
+</table>
+<table class="table table-striped">
+    <tr>
+      <td><h2>Who subscribed?</h2></td>
+    </tr>
+    <br>
+    <hr>
+    <tr>
+  <% @message.subscribed_users.each do |s| %>
+    <td><%= s.display_name %></td>
+    </tr> 
+  <% end %>
+
+</table>
+<hr>
 <% @message.comments.each do |comment| %>
 
 <div id="c-<%= comment.id %>">
