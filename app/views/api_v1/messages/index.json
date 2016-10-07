@@ -1,0 +1,9 @@
+messages.each |g|
+{
+	id: g.id
+  status: g.status
+ 	category_name: g.category_name
+ 	title: g.title
+ 	content: g.content
+ 	created_at: g.created_at
+}
