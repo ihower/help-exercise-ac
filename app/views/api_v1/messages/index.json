@@ -1,0 +1,10 @@
+messages.each |message|
+
+{
+	id: message.id
+	status: message.status
+	category_name: message.category_name
+	title: message.title
+	content: message.content
+	created_at: message.created_at
+}
