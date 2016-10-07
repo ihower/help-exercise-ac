@@ -8,11 +8,12 @@ class User < ActiveRecord::Base
   has_many :comments
 
   def display_name
-    self.email.split("@").first
+    self.email.split("@").firstpe
   end
 
   def posts_count
     # TODO: 請完成我
+    self.messages.count + self.comments.count
   end
 
   def words_count
