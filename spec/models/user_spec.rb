@@ -25,11 +25,13 @@ RSpec.describe User, type: :model do
   describe "#words_count" do
     before do
       # TODO: 加 Message 和 Comment 測試資料
+      m = Message.create!( user: @user, title: "I am Edward.", content: "I am Edward too.")
+      Comment.create!(user: @user, content: "I am Edward too too.", message: m)
     end
 
     it "加總該使用者的所有 Mesasge 和 Comment 的總字數" do
       # TODO: 測試 words_count 方法
-
+      expect( @user.words_count ).to eq(12)
     end
   end
 
