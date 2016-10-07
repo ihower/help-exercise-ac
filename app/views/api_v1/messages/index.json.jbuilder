@@ -1,1 +1,7 @@
-json.array! @messages, :id, :status, :category_name, :title, :content, :created_at
+json.array! @messages do |message|
+	json.(message, :id)
+
+	json.detalis do 
+		json.partial! message
+	end
+end
