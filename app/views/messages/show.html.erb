@@ -17,6 +17,34 @@
 
 <% end %>
 
+<br><br><br>
+
+<table class="table table-striped">
+    <tr>
+      <th>誰按LIKE</th>
+    </tr>
+    <tr>  
+  <% @message.liked_users.each do |liked_user| %>
+    <td><%= liked_user.display_name %></td>
+    </tr> 
+  <% end %>
+<table>
+
+<br><br><br> 
+
+<table class="table table-striped">
+    <tr>
+      <th>誰收藏</th>
+    </tr>
+    <tr>  
+  <% @message.subscribed_users.each do |subscribed_user| %>
+    <td><%= subscribed_user.display_name %></td>
+    </tr> 
+  <% end %>
+<table>
+
+<br><br><br> 
+
 <% @message.comments.each do |comment| %>
   <div class="comment-<%= comment.id%>">
     <p><%= simple_format comment.content %> at <%= comment.created_at.to_s(:short) %> by <%= comment.user.display_name %>
