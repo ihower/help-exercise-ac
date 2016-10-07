@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_many :like_messages, through: :likes, source: :message, dependent: :destroy
 
   def display_name
-    self.email.split("@").firstpe
+    self.email.split("@").first
   end
 
   def posts_count
