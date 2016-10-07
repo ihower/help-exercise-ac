@@ -14,9 +14,16 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = current_user.comments.find( params[:id] )
-    @comment.destroy
+    if @comment.user != current_user
+      render :back, alert: "你不是作者，沒有權限！"
+    else
+      @comment.destroy
+    end
 
-    redirect_to :back
+    respond_to do |format|
+      # format.html { redirect_to message_path(@message) }
+      format.js 
+    end
   end
 
   protected

@@ -17,6 +17,9 @@ namespace :dev do
                            :content => Faker::Lorem.paragraph,
                            :user => users.sample,
                            :created_at => Time.now - rand(30).days )
+      m.liked_messages << users.sample(2)
+      m.sub_messages << users.sample(2)
+
       5.times do
         m.comments.create!( :content => Faker::Lorem.paragraph,
                             :user => users.sample )
