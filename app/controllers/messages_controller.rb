@@ -4,14 +4,16 @@ class MessagesController < ApplicationController
 
   def index
     # TODO: fix N+1 queries for user and comments
-    @messages = Message.order("id DESC").page( params[:page] )
+    @messages = Message.includes(:comments).order("id DESC").page( params[:page] )
 
     if params[:status] == "pending"
       # TODO: @messages = @messages.pending
-      @messages = @messages.where( :status => "pending" )
+      #@messages = @messages.where( :status => "pending" )
+      @messages = @messages.pending
     elsif params[:status] == "completed"
       # TODO: @messages = @messages.completed
-      @messages = @messages.where( :status => "completed" )
+      #@messages = @messages.where( :status => "completed" )
+      @messages = @messages.completed
     end
 
     if params[:days]
@@ -22,6 +24,11 @@ class MessagesController < ApplicationController
 
   def show
     @message = Message.find( params[:id] )
+
+    #Message.last.likes.first.user.email
+    @who_like_message = @message.likes
+    @who_subscribe_message = @message.subscribes
+    
     @comment = Comment.new
   end
 
@@ -58,6 +65,29 @@ class MessagesController < ApplicationController
 
     redirect_to root_path
   end
+
+  def like
+    @message = Message.find(params[:id])
+    if current_user.like_message?(@message)
+        current_user.like_messages.delete(@message)
+    else
+        current_user.like_messages << @message
+    end
+
+    redirect_to message_path(@message)
+  end
+
+  def subscribe
+    @message = Message.find(params[:id])
+    if current_user.subscribe_message?(@message)
+        current_user.subscribe_messages.delete(@message)
+    else
+        current_user.subscribe_messages << @message
+    end
+
+    redirect_to message_path(@message)
+  end
+
 
   protected
 

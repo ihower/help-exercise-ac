@@ -1,9 +1,42 @@
 <h2><%= @message.title %></h2>
 
+<div class ="like">
+    <% if current_user.like_message?(@message) %>
+      <%= button_to "Unlike", like_message_path(@message) %>
+    <% else %>
+      <%= button_to "like", like_message_path(@message) %>
+    <% end %>
+</div>
+
+<div class ="subscribe">
+    <% if current_user.subscribe_message?(@message) %>
+      <%= button_to "Unsubscribe", subscribe_message_path(@message) %>
+    <% else %>
+      <%= button_to "subscribe", subscribe_message_path(@message) %>
+    <% end %>
+</div>
+
+
+<h2>Likes list</h2>
+<% @who_like_message.each do |message| %>
+  <%= message.user.email%> |
+<% end %>
+
+<h2>Subscribes list</h2>
+
+<% @who_subscribe_message.each do |message| %>
+  <% if message.user %>
+    <%= message.user.email%> |
+  <% else %>
+    Why not be the first to subscribe this
+  <% end %>
+<% end %>
+
+<hr/>
+
 <%= simple_format @message.content %>
 
 <h2>Comments list</h2>
-
 <%= form_for [@message, @comment] do |f| %>
 
   <p>
@@ -18,14 +51,14 @@
 <% end %>
 
 <% @message.comments.each do |comment| %>
-
+<div id="c-<%= comment.id %>">
   <p><%= simple_format comment.content %> at <%= comment.created_at.to_s(:short) %> by <%= comment.user.display_name %>
 
     <% if comment.user == current_user %>
       <%# TODO: 修改成 AJAX 版本的刪除 %>
-      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :data => { :confirm => "Are u sure?"} %>
+      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete,:remote => true, :data => { :confirm => "Are u sure?"} %>
     <% end %>
   </p>
-
+</div>
 <% end %>
 
