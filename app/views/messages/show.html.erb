@@ -1,6 +1,14 @@
 <h2><%= @message.title %></h2>
 
 <%= simple_format @message.content %>
+<h3>like_users</h3>
+<% @message.like_users.each do |u| %>
+  <%= u.email %>
+<% end %>
+<h3>subscript_users</h3>
+<% @message.subscript_users.each do |u| %>
+  <%= u.email %>
+<% end %>
 
 <h2>Comments list</h2>
 
