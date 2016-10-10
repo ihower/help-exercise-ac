@@ -1,0 +1,5 @@
+<% if current_user.liked_message?(@message)%>
+$("#like input[type=submit]").val("Unlike");
+<%else%>
+$("#like input[type=submit]").val("Like");
+<%end%>

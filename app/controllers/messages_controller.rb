@@ -1,22 +1,22 @@
 class MessagesController < ApplicationController
 
   before_action :authenticate_user!, :except => [:index, :show]
-
+  before_action :set_message, :only => :like
   def index
     # TODO: fix N+1 queries for user and comments
-    @messages = Message.order("id DESC").page( params[:page] )
-
+    @messages = Message.includes(:user, :comments).order("id DESC").page( params[:page] )
+    
     if params[:status] == "pending"
       # TODO: @messages = @messages.pending
-      @messages = @messages.where( :status => "pending" )
+      @messages = @messages.pending
     elsif params[:status] == "completed"
       # TODO: @messages = @messages.completed
-      @messages = @messages.where( :status => "completed" )
+      @messages = @messages.completed
     end
 
     if params[:days]
       # TODO: @messages = @messages.within_days(params[:days].to_i)
-      @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
+      @messages = @messages.within_days(params[:days].to_i)
     end
   end
 
@@ -58,11 +58,25 @@ class MessagesController < ApplicationController
 
     redirect_to root_path
   end
+  def like
+      if current_user.liked_message?(@message)
+        current_user.liked_messages.delete(@message)
+      else
+        current_user.liked_messages << @message
+      end
+      respond_to do |format|
+        format.html {redirect_to message_path(@message)}
+        format.js
+      end
+  end
 
   protected
 
   def message_params
     params.require(:message).permit(:title, :content, :category_name)
+  end
+  def set_message
+    @message = Message.find( params[:id] )
   end
 
 end
