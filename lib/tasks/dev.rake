@@ -18,6 +18,7 @@ namespace :dev do
     20.times do
       m = Message.create!( :title => Faker::Lorem.word,
                            :status => ["pending", "completed"].sample,
+                           :category_name => ["快報", "求物資", "求救"].sample,
                            :content => Faker::Lorem.paragraph,
                            :user => users.sample,
                            :created_at => Time.now - rand(30).days )
