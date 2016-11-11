@@ -16,7 +16,9 @@ namespace :dev do
                            :status => ["pending", "completed"].sample,
                            :content => Faker::Lorem.paragraph,
                            :user => users.sample,
-                           :created_at => Time.now - rand(30).days )
+                           :created_at => Time.now - rand(30).days,
+                           :subed_by_users => users.sample(2),
+                           :liked_by_users => users.sample(2) )
       5.times do
         m.comments.create!( :content => Faker::Lorem.paragraph,
                             :user => users.sample )
