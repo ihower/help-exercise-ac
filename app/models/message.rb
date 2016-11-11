@@ -4,6 +4,12 @@ class Message < ActiveRecord::Base
 
   has_many :comments, :dependent => :destroy
 
+  has_many :likes
+  has_many :like_users, :through => :likes, :source => :user
+
+  has_many :subscriptions
+  has_many :subscript_users, :through => :subscriptions, :source => :user
+
   scope :pending, -> { where( :status => "pending" ) }
   scope :completed, -> { where( :status => "completed" ) }
   scope :within_days, ->(date) { where( ["created_at >= ?", Time.now - date.days ] ) }
