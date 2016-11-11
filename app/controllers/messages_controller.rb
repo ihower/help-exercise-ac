@@ -3,21 +3,10 @@ class MessagesController < ApplicationController
   before_action :authenticate_user!, :except => [:index, :show]
 
   def index
-    # TODO: fix N+1 queries for user and comments
     @messages = Message.includes(:user, :comments).order("id DESC").page( params[:page] )
-
-    if params[:status] == "pending"
-      # TODO: @messages = @messages.pending
-      @messages = @messages.where( :status => "pending" )
-    elsif params[:status] == "completed"
-      # TODO: @messages = @messages.completed
-      @messages = @messages.where( :status => "completed" )
-    end
-
-    if params[:days]
-      # TODO: @messages = @messages.within_days(params[:days].to_i)
-      @messages = @messages.where( ["created_at >= ?", Time.now - params[:days].to_i.days ] )
-    end
+    @messages = @messages.pending if params[:status] == "pending"
+    @messages = @messages.completed if params[:status] == "completed"
+    @messages = @messages.within_days(params[:days].to_i) if params[:days]
   end
 
   def show
