@@ -7,6 +7,12 @@ class User < ActiveRecord::Base
   has_many :messages
   has_many :comments
 
+  has_many :subscriptions, :dependent => :destroy
+  has_many :sub_messages, -> { distinct }, :through => :subscriptions, :source => :message
+
+  has_many :likes, :dependent => :destroy
+  has_many :like_messages, -> { distinct }, :through => :likes, :source => :message
+
   def display_name
     self.email.split("@").first
   end
