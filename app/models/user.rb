@@ -34,4 +34,8 @@ class User < ActiveRecord::Base
     return count
   end
 
+  def short_name
+    self.email.split("@").first
+  end
+
 end

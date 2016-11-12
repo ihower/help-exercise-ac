@@ -1,6 +1,22 @@
 <h2><%= @message.title %></h2>
 
-<%= simple_format @message.content %>
+<div><%= simple_format @message.content %></div>
+<div>
+Subscriber:
+  <% if @message.subscribe_users  %>
+    <% @message.subscribe_users.each do |su| %>
+      <%= su.short_name %>
+    <% end %>
+  <% end %>  
+</div>
+<div>
+  <% if @message.like_users  %>
+    <% @message.like_users.each do |su| %>
+      <%= su.short_name %> 
+    <% end %>
+  <% end %>  
+  likes
+</div>
 
 <h2>Comments list</h2>
 
