@@ -22,15 +22,15 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "#words_count" do
-    before do
-      # TODO: 加 Message 和 Comment 測試資料
-    end
+  # describe "#words_count" do
+  #   before do
+  #     # TODO: 加 Message 和 Comment 測試資料
+  #   end
 
-    it "加總該使用者的所有 Mesasge 和 Comment 的總字數" do
-      # TODO: 測試 words_count 方法
+  #   it "加總該使用者的所有 Mesasge 和 Comment 的總字數" do
+  #     # TODO: 測試 words_count 方法
 
-    end
-  end
+  #   end
+  # end
 
 end
