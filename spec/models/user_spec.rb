@@ -22,15 +22,23 @@ RSpec.describe User, type: :model do
     end
   end
 
-  # describe "#words_count" do
-  #   before do
-  #     # TODO: 加 Message 和 Comment 測試資料
-  #   end
+  describe "#words_count" do
+    before do
+      # TODO: 加 Message 和 Comment 測試資料
+      @other_user = User.create!( :email => Faker::Internet.email.to_s, :password => "12345678")
 
-  #   it "加總該使用者的所有 Mesasge 和 Comment 的總字數" do
-  #     # TODO: 測試 words_count 方法
+      m = Message.create!( :title => "Hello world",
+                           :content => "where is the classroom",
+                           :user => @other_user )
 
-  #   end
-  # end
+        m.comments.create!( :content => "Give me some space", :user => @other_user )
+      
+    end
+
+    it "加總該使用者的所有 Mesasge 和 Comment 的總字數" do
+      # TODO: 測試 words_count 方法
+      expect( @other_user.words_count ).to eq(10)
+    end
+  end
 
 end
