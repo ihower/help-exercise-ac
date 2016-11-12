@@ -1,0 +1,1 @@
+json.( m, :id, :status, :category_name, :title, :content, :created_at)

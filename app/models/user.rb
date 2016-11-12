@@ -4,8 +4,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :messages
-  has_many :comments
+  has_many :messages, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
+  has_many :subscribes, :dependent => :destroy
+  has_many :subscribe_message, :through => :subscribes, :source => :message
+  has_many :likes, :dependent => :destroy
+  has_many :like_message, :through => :likes, :source => :message
 
   def display_name
     self.email.split("@").first
@@ -13,6 +17,7 @@ class User < ActiveRecord::Base
 
   def posts_count
     # TODO: 請完成我
+    self.messages.count + self.comments.count
   end
 
   def words_count
@@ -27,6 +32,10 @@ class User < ActiveRecord::Base
     end
 
     return count
+  end
+
+  def short_name
+    self.email.split("@").first
   end
 
 end
