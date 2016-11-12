@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
-
+  namespace :api, :defaults => { :format => :json } do
+    resource :v1 do
+      resources :messages
+    end
+  end
   resources :messages do
     resources :comments
   end
