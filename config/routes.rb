@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   resources :messages do
     resources :comments
+    resources :subscribes, only: [:create, :destroy] 
+    resources :likes, only: [:create, :destroy] 
   end
 
   scope :path => '/api/v1/', :module => "api_v1", :as => 'v1', :defaults => { :format => :json } do

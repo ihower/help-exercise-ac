@@ -4,8 +4,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :messages
-  has_many :comments
+  has_many :messages, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
+  has_many :subscribes, :dependent => :destroy
+  has_many :subscribe_message, :through => :subscribes, :source => :message
+  has_many :likes, :dependent => :destroy
+  has_many :like_message, :through => :likes, :source => :message
 
   def display_name
     self.email.split("@").first
