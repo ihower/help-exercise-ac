@@ -16,16 +16,27 @@
   </p>
 
 <% end %>
-
+<div id="content">
 <% @message.comments.each do |comment| %>
 
   <p><%= simple_format comment.content %> at <%= comment.created_at.to_s(:short) %> by <%= comment.user.display_name %>
 
     <% if comment.user == current_user %>
       <%# TODO: 修改成 AJAX 版本的刪除 %>
-      <%= link_to "Delete", message_comment_path(@message, comment), :method => :delete, :data => { :confirm => "Are u sure?"} %>
+      <%= link_to "Delete", message_comment_path(@message, comment), :id => "ajax-load", :method => :delete, :data => { :confirm => "Are u sure?"} %>
     <% end %>
   </p>
 
 <% end %>
+</div>
+<script>
+$('#ajax-load').click( function(e){
+  e.preventDefault();
+  var url =  $(this).attr("href");
+  $.ajax(url, {
+    success: function(response) {
+      $("#content").html(response);
+    }
+  });
+</script>
 
