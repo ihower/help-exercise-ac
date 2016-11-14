@@ -5,6 +5,17 @@ Rails.application.routes.draw do
     resources :comments
   end
 
+  resources :users
+
+  resources :messages do
+    member do
+      post :like
+      post :unlike
+      post :subscribe
+      post :unsubscribe
+    end
+  end
+
   scope :path => '/api/v1/', :module => "api_v1", :as => 'v1', :defaults => { :format => :json } do
     resources :messages
   end
