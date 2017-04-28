@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -19,9 +18,8 @@ ActiveRecord::Schema.define(version: 20150728165437) do
     t.integer  "message_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["message_id"], name: "index_comments_on_message_id"
   end
-
-  add_index "comments", ["message_id"], name: "index_comments_on_message_id"
 
   create_table "messages", force: :cascade do |t|
     t.string   "title"
@@ -31,10 +29,9 @@ ActiveRecord::Schema.define(version: 20150728165437) do
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.string   "status",        default: "pending"
+    t.index ["status"], name: "index_messages_on_status"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
-
-  add_index "messages", ["status"], name: "index_messages_on_status"
-  add_index "messages", ["user_id"], name: "index_messages_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -49,9 +46,8 @@ ActiveRecord::Schema.define(version: 20150728165437) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end
